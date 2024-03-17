@@ -10,6 +10,6 @@ class LeafNode(HTMLNode):
             raise ValueError("value is required")
 
         if self.tag is None:
-            return ""
+            return self.value
 
         return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
