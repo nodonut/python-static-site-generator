@@ -23,7 +23,7 @@ class TestParentNode(unittest.TestCase):
         )
 
         self.assertEqual(
-            "<b><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>",
+            "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>",
             node.to_html(),
         )
 
