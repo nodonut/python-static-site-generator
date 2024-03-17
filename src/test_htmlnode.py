@@ -10,3 +10,7 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(
             " href=https://example.com download=True", node.props_to_html()
         )
+
+
+if __name__ == "__main__":
+    unittest.main()
