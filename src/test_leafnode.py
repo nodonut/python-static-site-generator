@@ -12,7 +12,7 @@ class TestLeafNode(unittest.TestCase):
         props = {"href": "https://example.com"}
         node = LeafNode("this is a paragraph", "p", props)
         self.assertEqual(
-            "<p href=https://example.com>this is a paragraph</p>", node.to_html()
+            '<p href="https://example.com">this is a paragraph</p>', node.to_html()
         )
 
 

@@ -8,7 +8,7 @@ class TestHTMLNode(unittest.TestCase):
         props = {"href": "https://example.com", "download": True}
         node = HTMLNode("a", "Click me", None, props)
         self.assertEqual(
-            " href=https://example.com download=True", node.props_to_html()
+            ' href="https://example.com" download="True"', node.props_to_html()
         )
 
 
