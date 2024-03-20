@@ -15,7 +15,7 @@ class HTMLNode:
 
         output = ""
         for prop in self.props:
-            output += f" {prop}={self.props[prop]}"
+            output += f' {prop}="{self.props[prop]}"'
 
         return output
 
