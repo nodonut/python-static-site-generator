@@ -10,15 +10,15 @@ class TestParentNode(unittest.TestCase):
             "p",
             [
                 LeafNode(
-                    "Bold text",
                     "b",
+                    "Bold text",
                 ),
-                LeafNode("Normal text", None),
+                LeafNode(None, "Normal text"),
                 LeafNode(
-                    "italic text",
                     "i",
+                    "italic text",
                 ),
-                LeafNode("Normal text", None),
+                LeafNode(None, "Normal text"),
             ],
         )
 
@@ -29,7 +29,7 @@ class TestParentNode(unittest.TestCase):
 
     def test_to_html_with_parentnode(self):
         nested_parent_node = ParentNode(
-            "a", [LeafNode("Click ", None), ParentNode("i", [LeafNode("Me", "b")])]
+            "a", [LeafNode(None, "Click "), ParentNode("i", [LeafNode("b", "Me")])]
         )
 
         self.assertEqual(
@@ -41,8 +41,8 @@ class TestParentNode(unittest.TestCase):
         node = ParentNode(
             "a",
             [
-                LeafNode("Click", None),
-                ParentNode("span", [LeafNode("Me", None)], {"class": "my-class"}),
+                LeafNode(None, "Click"),
+                ParentNode("span", [LeafNode(None, "Me")], {"class": "my-class"}),
             ],
             {"href": "https://www.example.com", "download": True},
         )
