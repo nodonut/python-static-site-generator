@@ -1,4 +1,8 @@
-import re
+from htmlnode import HTMLNode
+from leafnode import LeafNode
+from parentnode import ParentNode
+from inline_markdown import text_to_textnodes
+from textnode import text_node_to_html_node
 
 block_type_paragraph = "paragraph"
 block_type_heading = "heading"
@@ -50,3 +54,74 @@ def block_to_block_type(block):
         return block_type_ordered_list
 
     return block_type_paragraph
+
+
+def convert_block_to_paragraph(block):
+    children = []
+
+    for text_node in text_to_textnodes(block):
+        node = text_node_to_html_node(text_node)
+        children.append(node)
+
+    return ParentNode("p", children)
+
+
+def convert_block_to_heading(block):
+    heading = ""
+    if block.startswith("# "):
+        heading = "h1"
+    elif block.startswith("## "):
+        heading = "h2"
+    elif block.startswith("### "):
+        heading = "h3"
+    elif block.startswith("#### "):
+        heading = "h4"
+    elif block.startswith("##### "):
+        heading = "h5"
+    elif block.startswith("###### "):
+        heading = "h6"
+
+    return LeafNode(f"h{heading}", block)
+
+
+def convert_block_to_code(block):
+    return ParentNode("pre", [HTMLNode("code", block)])
+
+
+def convert_block_to_blockquote(block):
+    return LeafNode("blockquote", block)
+
+
+def convert_block_to_ul(block):
+    return ParentNode("ul", map(lambda line: LeafNode("li", line), block.split("\n")))
+
+
+def convert_block_to_ol(block):
+    return ParentNode("ol", map(lambda line: LeafNode("li", line), block.split("\n")))
+
+
+def convert_block_to_html_node(block, block_type):
+    if block_type == block_type_quote:
+        return convert_block_to_blockquote(block)
+    elif block_type == block_type_code:
+        return convert_block_to_code(block)
+    elif block_type == block_type_heading:
+        return convert_block_to_heading(block)
+    elif block_type == block_type_unordered_list:
+        return convert_block_to_ul(block)
+    elif block_type == block_type_ordered_list:
+        return convert_block_to_ol(block)
+    else:
+        return convert_block_to_paragraph(block)
+
+
+def markdown_to_html_node(markdown):
+    blocks = markdown_to_blocks(markdown)
+    children = []
+
+    for block in blocks:
+        block_type = block_to_block_type(block)
+        node = convert_block_to_html_node(block, block_type)
+        children.append(node)
+
+    return ParentNode("div", children)
